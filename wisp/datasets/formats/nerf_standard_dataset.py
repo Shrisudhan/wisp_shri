@@ -389,9 +389,9 @@ class NeRFSyntheticDataset(MultiviewDataset):
         if 'cy' in metadata:
             y0 = (float(metadata['cy']) / (2**self.mip)) - (h//2)
 
-        offset = metadata['offset'] if 'offset' in metadata else [0 ,0 ,0]
+        offset = metadata['offset'] if 'offset' in metadata else [0, 0, 0]
         scale = metadata['scale'] if 'scale' in metadata else 1.0
-        aabb_scale = metadata['aabb_scale'] if 'aabb_scale' in metadata else 1.25
+        aabb_scale = metadata['aabb_scale'] if 'aabb_scale' in metadata else 1.5
 
         # TODO(ttakikawa): Actually scale the AABB instead? Maybe
         poses[..., :3, 3] /= aabb_scale

@@ -25,7 +25,7 @@ grid: # Feature grid, the backbone of the neural field
   feature_bias:  0.0
   codebook_bitwidth: 19
   min_grid_res: 16
-  max_grid_res: 512
+  max_grid_res: 2048
 
 nef:  # Neural field: combines grid, decoders and positional embedders
   constructor: 'NeuralRadianceField'
@@ -37,7 +37,7 @@ nef:  # Neural field: combines grid, decoders and positional embedders
   activation_type: 'relu'
   layer_type: 'linear'
   hidden_dim: 64
-  num_layers: 1
+  num_layers: 2
   bias: True
   prune_density_decay: 0.95             # prune parameter for occupancy blas according to feature struct
   prune_min_density: 2.956033378250884  # prune parameter for occupancy blas according to feature struct
@@ -45,7 +45,7 @@ nef:  # Neural field: combines grid, decoders and positional embedders
 
 tracer: # A tracer for intersecting rays with the blas, generating samples along rays for the neural field & integrating
   constructor: 'PackedRFTracer'
-  bg_color: [ 0.0, 0.0, 0.0 ]
+  bg_color: [ 1.0, 1.0, 1.0 ]
   num_steps: 2048  # Lower if running out of memory
   raymarch_type: 'ray'
   step_size: 1.0
@@ -54,7 +54,7 @@ dataset:  # Train & validation dataset
   constructor: 'NeRFSyntheticDataset'
   dataset_path: 'data/'
   split: 'train'      # Which subset of the dataset to use for training
-  bg_color: [ 0.0, 0.0, 0.0 ]
+  bg_color: [ 1.0, 1.0, 1.0 ]
   mip: 0              # If provided, will rescale images by 2**mip. Useful when large images are loaded.
   dataset_num_workers: -1  # The number of workers to spawn for multiprocessed loading.
                            # If dataset_num_workers < 1, processing will take place on the main process.
@@ -83,7 +83,7 @@ trainer:
   random_lod: False        # If True, random LODs in the occupancy structure will be picked per step, during tracing.
                            # If False, will always used the highest level of the occupancy structure.
   rgb_lambda: 1.0          # Loss weight for rgb_loss component.
-  rgb_loss_type: 'huber'
+  rgb_loss_type: 'l1'
   rgb_loss_denom: 'rays'
 
   dataloader:
@@ -115,7 +115,7 @@ tracker:
     camera_origin: [ -3.0, 0.65, -3.0 ]
     camera_lookat: [ 0.0, 0.0, 0.0 ]
     camera_fov: 30
-    camera_clamp: [ 0.0, 10.0 ]
+    camera_clamp: [ 1.0, 5.0 ]
     viz360_num_angles: 20         # Set to 0 to disable the 360 animation.
     viz360_radius: 3.0
     viz360_render_all_lods: False

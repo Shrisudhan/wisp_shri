@@ -69,7 +69,7 @@ if cfg.interactive:
     cfg.trainer.render_every = -1
     cfg.trainer.save_every = -1
     cfg.trainer.valid_every = -1
-print_config(cfg)
+# print_config(cfg)
 
 # Loads a multiview dataset comprising of pairs of images and calibrated cameras:
 # NeRFSyntheticDataset - refers to the standard NeRF format popularized by Mildenhall et al. 2020,
